@@ -1,13 +1,108 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-project</title>
-  </head>
-  <body>
-    <div id="app"></div>
+    <title>Mi Portafolio 3D</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+    <header>
+        <div class="header-left">
+            <h1>Mi Portafolio</h1>
+            <div class="header-sub">Portafolio 3D · Three.js · Blender</div>
+        </div>
+
+        <!-- BOTONES -->
+        <nav aria-label="Acciones rápidas">
+            <div class="header-buttons">
+                <button id="btn-color">Cámara</button>
+                <button id="btn-light">Luz</button>
+                <button id="btn-theme-header">Tema</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="layout" role="main">
+
+        <div class="three-wrapper">
+            <div id="three-container"></div>
+        </div>
+
+        <!-- INFO DERECHA  -->
+        <section class="info" aria-labelledby="info-title">
+
+            <article class="card profile" aria-labelledby="profile-name">
+                <div class="avatar" aria-hidden="true">
+                    <img src="/mi_foto.png" />
+                </div>
+                <div class="profile-meta">
+                    <h3 id="profile-name">Eduardo Yahel Ruiz López</h3>
+                    <p>Estudiante de Ingeniería en Sistemas Computacionales
+                      Tecnológico Nacional de México
+                      ·Quinto semestre</p>
+                    <div class="badges" aria-hidden="true">
+                      <span class="badge">Python</span>
+                      <span class="badge">Blender</span>
+                      <span class="badge">Flutter</span>
+                      <span class="badge">JavaScript</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card" id="sobre-mi" aria-labelledby="sobre-mi-title">
+                <h2 id="sobre-mi-title">Sobre mí</h2>
+                <p>Hola, soy un estudiante de Ingenieria en Sistemas Computacionales del reconocido Instituto Tecnológico Nacional de Mérida, en el cual actualmente curso mi quinto semestre de ingenieria en sistemas. 
+                  Me apasiona aprender cosas nuevas y enfrentar desafíos que me permitan crecer tanto personal como profesionalmente.
+                  Soy una persona dedicada y comprometida con mis estudios y proyectos, siempre buscando entregar todo de mi en todo lo que hago.
+                </p>
+            </article>
+
+            <article class="card" id="habilidades" aria-labelledby="habilidades-title">
+                <h2 id="habilidades-title">Habilidades</h2>
+                <ul>
+                    <li>Desarrollo Front end</li>
+                    <li>Three.js / WebGL</li>
+                    <li>HTML / CSS o</li>
+                    <li>Modelado 3D en Blender</li>
+                </ul>
+            </article>
+
+            <article class="card" id="proyectos" aria-labelledby="proyectos-title">
+                <h2 id="proyectos-title">Proyectos</h2>
+                <p>Aquí muestro algunos proyectos destacados:</p>
+                <ul>
+                  <li><strong>Portafolio 3D</strong> — Modelo 3D interactivo (blender + three.js)<a href="https://github.com/EddyRuLop/Portafolio_3D" target="_blank" rel="noopener noreferrer">https://github.com/EddyRuLop/Portafolio_3D</a></li>
+                  <li><strong>App Gemini</strong> — Conectar la API de Gemini a una app propia<a href="https://github.com/EddyRuLop/gemini_app" target="_blank" rel="noopener noreferrer">https://github.com/EddyRuLop/gemini_app</a></li>
+                  <li><strong>Aplicaciones con flutter</strong> — Desarrollo de UI, IU, GUI para aplicaciones con flutter<a href="https://github.com/EddyRuLop" target="_blank" rel="noopener noreferrer">https://github.com/EddyRuLop</a></li>
+                  <li><strong>CV Clean</strong> — Aplicación integrada con API Gemini para la creación de CV con IA<a href="https://github.com/EddyRuLop/cv-clean" target="_blank" rel="noopener noreferrer">https://github.com/EddyRuLop/cv-clean</a></li>
+
+                </ul>
+            </article>
+
+            <article class="card" id="contacto" aria-labelledby="contacto-title">
+                <h2 id="contacto-title">Contacto</h2>
+                <div class="contact-row">
+                  <span>Email: <a href="mailto:eduardoyahel@gmail.com">eduardoyahel@gmail.com</a></span>
+                  <span>LinkedIn: <a href="https://www.linkedin.com/in/eduardo-ruiz-04a61a2a9" target="_blank" rel="noopener noreferrer">Eduardo Ruiz</a></span>
+                  <span>GitHub: <a href="https://github.com/EddyRuLop" target="_blank" rel="noopener noreferrer">@EddyRuLop</a></span>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+      © <span id="year"></span>  Ruiz López Eduardo Yahel· Portafolio 3D
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
     <script type="module" src="/src/main.js"></script>
-  </body>
+</body>
 </html>

@@ -1,0 +1,256 @@
+/* --- VARIABLES --- */
+:root{
+  --bg: #0f1113;
+  --panel: #121314;
+  --muted: #9aa3a6;
+  --accent: #39a0a0;
+  --glass: rgba(255,255,255,0.03);
+  --card-bg: rgba(27,27,27,0.9);
+  --radius: 14px;
+  --text: #e6eef0;
+  --smooth: 200ms;
+}
+
+/* --- FUENTES --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* --- HEADER --- */
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  position:sticky;
+  top:0;
+  z-index:40;
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+header h1{
+  margin:0;
+  font-size:1.8rem;
+  font-weight:800;
+  letter-spacing:0.6px;
+}
+
+/* small subtitle */
+.header-sub{
+  color:var(--muted);
+  font-size:0.9rem;
+  margin-top:2px;
+}
+
+/* === BOTONES EN HEADER === */
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header-buttons button {
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #222, #1a1a1a);
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: transform var(--smooth), box-shadow var(--smooth);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 -2px 0 rgba(255,255,255,0.03);
+}
+
+.header-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 28px rgba(0,0,0,0.7);
+}
+
+/* --- LAYOUT --- */
+.layout {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 72px);
+  gap: 28px;
+  padding: 24px;
+}
+
+/* --- WRAPPER DEL MODELO 3D --- */
+.three-wrapper {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+  position: relative;
+}
+
+#three-container {
+  flex: 1;
+  background: #172021;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position: relative;
+  z-index: 1;
+}
+
+/* already removed controls, since no longer shown */
+
+/* --- INFO RIGHT COLUMN --- */
+.info {
+  width: 40%;
+  padding: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* scrollbar */
+.info::-webkit-scrollbar{width:10px}
+.info::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border-radius:999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* --- CARD STYLE --- */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(2,6,8,0.6);
+  backdrop-filter: blur(8px);
+  transition: transform var(--smooth), box-shadow var(--smooth);
+}
+
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 22px 40px rgba(2,6,8,0.7);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  letter-spacing:0.3px;
+}
+
+/* profile card special */
+.profile {
+  display:flex;
+  gap:16px;
+  align-items:center;
+  padding:18px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.007));
+}
+
+.avatar {
+  width:90px;
+  height:90px;
+  border-radius:999px;
+  overflow:hidden;
+  flex:0 0 84px;
+  border: 2px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+}
+
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+
+.profile-meta{
+  display:flex;
+  flex-direction:column;
+}
+
+.profile-meta h3{
+  margin:0;
+  font-size:1.1rem;
+  font-weight:700;
+}
+
+.profile-meta p{
+  margin:6px 0 0 0;
+  color:var(--muted);
+  font-size:0.92rem;
+}
+
+/* badges */
+.badges{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+}
+.badge{
+  padding:6px 8px;
+  background: rgba(255,255,255,0.02);
+  border-radius:999px;
+  font-size:0.8rem;
+  border:1px solid rgba(255,255,255,0.03);
+  color:var(--muted);
+}
+
+/* lists */
+.card ul{padding-left:18px;margin:8px 0 0 0;color:var(--muted)}
+.card li{margin:8px 0}
+
+/* contact row */
+.contact-row{display:flex;flex-direction:column;gap:6px}
+.contact-row a{color:var(--accent);text-decoration:none;font-weight:600}
+
+/* footer */
+footer{
+  padding:10px 24px;
+  color:var(--muted);
+  font-size:0.85rem;
+  border-top:1px solid rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
+}
+
+/* --- TEMA CLARO --- */
+body.light {
+  --bg: #f6f7f8;
+  --panel: #ffffff;
+  --muted: #566269;
+  --accent: #0c7b7b;
+  --glass: rgba(0,0,0,0.03);
+  --card-bg: #ffffff;
+  --text: #0b1012;
+}
+
+body.light #three-container{ background:#e9efef }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 980px){
+  .layout{flex-direction:column;height:calc(100vh - 72px);padding:16px;gap:12px}
+  .three-wrapper{width:100%;height:55vh}
+  .info{width:100%;height:calc(100vh - 55vh - 72px);overflow:auto}
+}
+
+@media (max-width:480px){
+  header h1{font-size:1.2rem}
+  .avatar{width:64px;height:64px;flex:0 0 64px}
+  .profile{padding:12px}
+}
