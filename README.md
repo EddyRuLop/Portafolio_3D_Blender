@@ -1,6 +1,6 @@
-# Portafolio de Eduardo Ruiz
+# Portafolio 3D con Three.js
 
-CV interactivo para el Modelo Dual con proyectos de software, experiencia y enlaces de contacto. Incluye una escena 3D con Three.js que se puede girar, centrar e iluminar desde el navegador. El contenido y la descarga del CV se pueden usar sin WebGL.
+Prototipo de portafolio personal que combina una página en HTML y CSS con un visor 3D en Three.js. El sitio se desarrolla con Vite.
 
 ## Ejecutar localmente
 
@@ -12,16 +12,6 @@ npm ci
 npm run dev
 ```
 
-## Compilar y publicar
+Ejecuta `npm run build` para compilar. La salida está en `my-three-project/dist/`.
 
-```bash
-npm run build
-npm run preview
-```
-
-La compilación genera `my-three-project/dist/`. En Cloudflare Pages, usa `my-three-project` como directorio raíz, `npm run build` como comando de compilación y `dist` como directorio de salida.
-
-## Estructura
-
-- `my-three-project/index.html` contiene el perfil, los proyectos y la experiencia.
-- `my-three-project/src/main.js` controla la escena Three.js.
+El visor busca `my-three-project/public/mini_oficina_export_ready.glb` para cargar la escena de Blender. Ese archivo no está incluido en el repositorio. Puedes abrir el sitio para revisar el contenido y la interfaz del prototipo.
