@@ -1,98 +1,97 @@
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let scene, camera, renderer, controls, model, mainLight;
+const container = document.querySelector('#three-container');
+const message = document.querySelector('#viewer-message');
 
-function init() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x202020);
-
-  camera = new THREE.PerspectiveCamera(
-    45,
-    (window.innerWidth * 0.6) / window.innerHeight,
-    0.1,
-    100
-  );
-  camera.position.set(2.5, 1.6, 3);
-
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setSize(window.innerWidth * 0.6, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  const container = document.getElementById("three-container");
-  container.appendChild(renderer.domElement);
-
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-
-  mainLight = new THREE.DirectionalLight(0xffffff, 2);
-  mainLight.position.set(5, 10, 7);
-  scene.add(mainLight);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-
-  const draco = new DRACOLoader();
-  draco.setDecoderPath("/draco/");
-
-  const loader = new GLTFLoader();
-  loader.setDRACOLoader(draco);
-
-  loader.load(
-    "/mini_oficina_export_ready.glb",
-    (gltf) => {
-      model = gltf.scene;
-      model.scale.set(0.2, 0.2, 0.2);
-      scene.add(model);
-    },
-    undefined,
-    (err) => console.error("Error GLB:", err)
-  );
-
-  animate();
+try {
+  mountStudio();
+} catch {
+  message.textContent = 'Vista 3D no disponible en este dispositivo';
 }
 
-function animate() {
-  requestAnimationFrame(animate);
+function mountStudio() {
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color('#101e26');
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 30);
+  camera.position.set(4.2, 3.2, 5.8);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 1, 0);
+  controls.enablePan = false;
+  controls.enableZoom = false;
+  controls.maxPolarAngle = Math.PI / 2;
   controls.update();
-  renderer.render(scene, camera);
-}
+  controls.saveState();
 
-/* === BUTTONS HEADER === */
-document.getElementById("btn-color").onclick = () => {
-  if (!model) return;
-  model.traverse((child) => {
-    if (child.isMesh) {
-      child.material.color.setHSL(Math.random(), 0.5, 0.5);
-    }
-  });
-};
+  const light = new THREE.DirectionalLight('#d8fff8', 2.4);
+  light.position.set(3, 6, 5);
+  scene.add(light, new THREE.HemisphereLight('#ddf6f2', '#324356', 2));
 
-document.getElementById("btn-light").onclick = () => {
-  mainLight.intensity = mainLight.intensity === 2 ? 0.7 : 2;
-};
+  function box(w, h, d, x, y, z, color) {
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(w, h, d),
+      new THREE.MeshStandardMaterial({ color }),
+    );
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+  }
 
-document.getElementById("btn-theme-header").onclick = () => {
-  document.body.classList.toggle("light");
-
-  scene.background = new THREE.Color(
-    document.body.classList.contains("light") ? 0xe0e0e0 : 0x202020
+  // A small workstation assembled from meshes so the viewer has no model download.
+  box(3.75, .17, 2.75, 0, .12, 0, '#243d48');
+  box(2.85, .14, 1.46, 0, 1.02, 0, '#af8660');
+  for (const x of [-1.18, 1.18]) {
+    for (const z of [-.52, .52]) box(.14, .88, .14, x, .57, z, '#55747b');
+  }
+  box(.55, .065, .32, -.38, 1.12, -.25, '#304b55');
+  box(.14, .29, .12, -.38, 1.26, -.32, '#304b55');
+  box(1.45, .88, .09, -.38, 1.7, -.33, '#314a52');
+  box(1.34, .76, .03, -.38, 1.7, -.27, '#0c2431');
+  box(.92, .37, .025, -.38, 1.65, -.247, '#148c80');
+  box(.63, .035, .024, -.48, 1.94, -.246, '#b1eee3');
+  box(.88, .055, .28, -.37, 1.12, .36, '#91aaa8');
+  box(.14, .07, .2, .35, 1.12, .36, '#d5e9e4');
+  box(.31, .17, .3, 1.04, 1.17, -.34, '#ad644b');
+  const plant = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(.23, 0),
+    new THREE.MeshStandardMaterial({ color: '#50ae79' }),
   );
-};
+  plant.position.set(1.04, 1.44, -.34);
+  scene.add(plant);
 
+  const render = () => renderer.render(scene, camera);
+  const resize = () => {
+    const { clientWidth, clientHeight } = container;
+    renderer.setSize(clientWidth, clientHeight, false);
+    camera.aspect = clientWidth / clientHeight;
+    camera.updateProjectionMatrix();
+    render();
+  };
 
-/* RESET preserved by you */
-document.getElementById("btn-color").onclick = () => {
-  camera.position.set(2.5, 1.6, 3);
-  if (model) model.rotation.set(0, 0, 0);
-};
+  container.replaceChildren(renderer.domElement);
+  renderer.domElement.addEventListener('webglcontextlost', (event) => {
+    event.preventDefault();
+    message.textContent = 'Vista 3D temporalmente no disponible';
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    message.textContent = 'Estudio 3D · Arrastra para girar';
+    resize();
+  });
+  controls.addEventListener('change', render);
+  new ResizeObserver(resize).observe(container);
+  resize();
 
-window.addEventListener("resize", () => {
-  const w = window.innerWidth * 0.6;
-  const h = window.innerHeight;
-
-  renderer.setSize(w, h);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-});
-
-init();
+  document.querySelector('#reset-view').addEventListener('click', () => controls.reset());
+  document.querySelector('#toggle-light').addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const dimmed = button.getAttribute('aria-pressed') === 'true';
+    light.intensity = dimmed ? 2.4 : .45;
+    button.setAttribute('aria-pressed', String(!dimmed));
+    render();
+  });
+  document.querySelector('#viewer-actions').hidden = false;
+  message.textContent = 'Estudio 3D · Arrastra para girar';
+}
